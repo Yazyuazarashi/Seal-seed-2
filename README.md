@@ -72,15 +72,9 @@
             const { data: { text } } = await Tesseract.recognize(file, 'jpn+eng');
             console.log(`OCR raw (${file.name}):\n`, text);
 
-            const values = text
-              .split('\n')
-              .filter(line => /戦.{0,2}力/.test(line)) // "戦力" に似ている行を抽出
-              .map(line => {
-                const cleanLine = line.replace(/[^\d,]/g, ''); // 数字とカンマ以外除去
-                const m = cleanLine.match(/\d[\d,]*/);
-                return m ? parseInt(m[0].replace(/,/g, ''), 10) : 0;
-              })
-              .filter(v => v > 0);
+            const values = (text.match(/\d[\d,]{3,}/g) || [])  // 4桁以上の数字をすべて取得
+  .map(v => parseInt(v.replace(/,/g, ''), 10))     // カンマを削除して整数に
+  .filter(v => v > 10000);                         // 1万未満を除外（ユーザ名の数字など）
 
             log.textContent += ` → 抽出値 [${values.join(', ')}]\n`;
             allValues.push(...values);
