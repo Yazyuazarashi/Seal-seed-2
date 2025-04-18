@@ -3,7 +3,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>戦力集計ツール</title>
+  <title>スクショで簡単！戦力集計ツール</title>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4"></script>
   <style>
     body {
