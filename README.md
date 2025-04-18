@@ -74,9 +74,10 @@
 
             const values = text
               .split('\n')
-              .filter(line => line.includes('戦力'))
+              .filter(line => /戦.{0,2}力/.test(line)) // "戦力" に似ている行を抽出
               .map(line => {
-                const m = line.match(/\d[\d,]*/);
+                const cleanLine = line.replace(/[^\d,]/g, ''); // 数字とカンマ以外除去
+                const m = cleanLine.match(/\d[\d,]*/);
                 return m ? parseInt(m[0].replace(/,/g, ''), 10) : 0;
               })
               .filter(v => v > 0);
